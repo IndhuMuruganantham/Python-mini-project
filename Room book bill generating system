@@ -1,0 +1,63 @@
+room_rates = {
+    'Single': 1000,
+    'Double': 1500,
+    'Suite': 2000
+}
+service_rates = {
+    'Breakfast': 100,
+    'Lunch': 200,
+    'Dinner': 150
+}
+def user_input():
+    	print("Welcome to the Hotel")
+   	customer_id = int(input("Enter customer ID: "))
+    	room_number = int(input("Enter room number: "))
+   	name = input("Enter customer name: ")
+    	print("Room Types: Single, Double, Suite")
+   	room_type = input("Enter room type: ").capitalize()
+    	 days = int(input("Enter number of days stayed: "))
+   	 print("Services available: Breakfast, Lunch, Dinner")
+    	services = input("Enter services used (comma separated): ").split(',')
+   	 services = [service.strip().capitalize() for service in services]
+   	 print("Complimentary Service Options: Breakfast, Lunch, Dinner")
+    	complimentary_service = input("Choose your complimentary service: ").capitalize()
+ return customer_id, room_number, name, room_type, days, services,             complimentary_service
+
+def calculate_bill(room_type, days, services, complimentary_service):
+  	  room_cost = room_rates.get(room_type, 0) * days
+   	 service_costs = {service: service_rates.get(service, 0) * days for service in	services}
+    	total_service_cost = sum(service_costs.values())
+    	if complimentary_service in services:
+       		 total_service_cost -= service_rates.get(complimentary_service, 0)
+    	total_cost = room_cost + total_service_cost
+    	return room_cost, service_costs, total_service_cost, total_cost
+
+def display_bill(customer_id, room_number, name, room_type, days, services, complimentary_service, room_cost, service_costs, total_service_cost, total_cost):
+    	print("\n--- Hotel Bill ---")
+   	 print(f"Customer ID: {customer_id}")
+   	 print(f"Room Number: {room_number}")
+   	 print(f"Customer Name: {name}")
+   	 print(f"Room Type: {room_type}")
+   	 print(f"Number of Days: {days}")
+   	 print(f"Room Cost: Rs.{room_cost:.2f}")
+  	  print("Services Used:")
+    	for service, cost in service_costs.items():
+        		If service == complimentary_service:
+          		 print(f"  - {service}: Rs.{cost/days:.2f} per day, Total: Rs.{cost:.2f} (Complimentary for one day)")
+       		 else:
+           	 print(f"  - {service}: Rs.{cost/days:.2f} per day, Total: Rs.{cost:.2f}")
+        
+    	print(f"Service Cost: Rs.{total_service_cost:.2f}")
+    	print(f"Total Cost: Rs.{total_cost:.2f}")
+   	print("THANK YOU:)!!!VISIT US AGAIN:)!!!")
+    	print("------------------------")
+
+def main():
+    	customer_id, room_number, name, room_type, days, services, complimentary_service = user_input()
+    
+    	room_cost, service_costs, total_service_cost, total_cost = calculate_bill(room_type, days, services, complimentary_service)
+    
+    	display_bill(customer_id, room_number, name, room_type, days, services, complimentary_service, room_cost, service_costs, total_service_cost, total_cost)
+
+if __name__== "__main__":
+    	main()
